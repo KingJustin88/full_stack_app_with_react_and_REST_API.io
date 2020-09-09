@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'; 
 import Form from './Form'
 
 export default class UpdateCourse extends Component {   
@@ -183,10 +183,13 @@ export default class UpdateCourse extends Component {
                 this.props.history.push(`/courses/${course.id}`);
             }
         })
-        .catch(err => {
-            console.log('Something went wrong: ', err);
-            this.props.history.push('/error');
-        });
+        .catch( user => {
+            if (user) {
+                this.setState(() => {
+                return { errors: [ 'Update was unsuccessful, title and description is required' ] };
+                });
+            }
+        })
     }
 
     cancel = () => {

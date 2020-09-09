@@ -19,34 +19,71 @@ export default class CourseDetail extends Component {
             title, 
             description, 
             estimatedTime, 
-            materialsNeeded
+            materialsNeeded,
+            userId
         } = this.state.courseDetail;
-
+        const {context} = this.props
+        const authUser = context.authenticatedUser;
+        
         // return rendering details of the course, with update, delete and return to list of course buttons
         return (
             <React.Fragment>
                 <div>
                     <div className="actions--bar">
-                        <div className="bounds">
-                            <div className="grid-100">
-                                <span>
-                                    <Link 
-                                        className="button" 
-                                        to={`/update/${id}`}
-                                    >   Update Course</Link>
-                                    <button 
-                                        className="button" 
-                                        to={`/update/${id}`}
-                                        onClick={this.deleteDetailCourse}
-                                    >   Delete Course</button>
-                                </span>
-                                    <a 
-                                        className="button button-secondary" 
-                                        href="/"
-                                    >   Return to List</a>
-                            </div>
+                        {(() => {
+                                if (authUser) {
+                                    const authUserId = context.authenticatedUser.id;
+                                    if (authUserId === userId) {
+                                        return (
+                                            // if authorized, then update and delete option is available
+                                            <React.Fragment>
+                                                <div className="bounds">
+                                                    <div className="grid-100">
+                                                    <span>
+                                                        <Link className="button" to={`/courses/${id}/update`}>
+                                                        Update Course
+                                                        </Link>
+                                                        <button onClick={this.deleteDetailCourse} className="button">
+                                                        Delete Course
+                                                        </button>
+                                                    </span>
+                                                    <Link className="button button-secondary" to="/">
+                                                        Return to List
+                                                    </Link>
+                                                    </div>
+                                                </div>
+                                            </React.Fragment>
+                                        );
+                                    } else {
+                                        // if not then user will just see the return list
+                                        return (
+                                            <React.Fragment>
+                                                <div className="bounds">
+                                                    <div className="grid-100">
+                                                    <Link className="button button-secondary" to="/">
+                                                        Return to List
+                                                    </Link>
+                                                    </div>
+                                                </div>
+                                            </React.Fragment>
+                                        );
+                                    }
+                                } else {
+                                    // if not authorized or not a user, then the viewer will just see the return list too
+                                    return (
+                                        <React.Fragment>
+                                            <div className="bounds">
+                                                <div className="grid-100">
+                                                <Link className="button button-secondary" to="/">
+                                                    Return to List
+                                                </Link>
+                                                </div>
+                                            </div>
+                                        </React.Fragment>
+                                    );
+                                }
+                            })()}
                         </div>
-                    </div>
                     <div className="bounds course--detail">
                         <div className="grid-66">
                             <div className="course--header">

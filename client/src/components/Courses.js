@@ -31,7 +31,7 @@ export default class CoursePage extends Component {
                 <div className="bounds">
                     {coursesArray}
                     <div className="grid-33">
-                        <Link className="course--module course--add--module" to="/create">
+                        <Link className="course--module course--add--module" to="/courses/create">
                             <h3 className="course--add--title">
                                 <svg 
                                     version="1.1" 

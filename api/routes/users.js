@@ -25,6 +25,7 @@ function asyncHandler(cb){
     try {
       await cb(req,res, next);
     } catch(err){
+      res.status(500).json({ message: error.message });
       next(err);
     }
   };
